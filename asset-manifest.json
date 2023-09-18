@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Gunpla-Checker/static/css/main.77b5a15a.css",
+    "main.js": "/Gunpla-Checker/static/js/main.0c6b9960.js",
+    "static/js/787.cfac310b.chunk.js": "/Gunpla-Checker/static/js/787.cfac310b.chunk.js",
+    "index.html": "/Gunpla-Checker/index.html",
+    "main.77b5a15a.css.map": "/Gunpla-Checker/static/css/main.77b5a15a.css.map",
+    "main.0c6b9960.js.map": "/Gunpla-Checker/static/js/main.0c6b9960.js.map",
+    "787.cfac310b.chunk.js.map": "/Gunpla-Checker/static/js/787.cfac310b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.77b5a15a.css",
+    "static/js/main.0c6b9960.js"
+  ]
+}
