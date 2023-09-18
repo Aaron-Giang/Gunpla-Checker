@@ -1,4 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+#temp exclustions for deployment
+/functions
+/infra
 
 # dependencies
 /node_modules
@@ -24,7 +27,3 @@ yarn-error.log*
 
 infra/.terraform/providers/registry.terraform.io/hashicorp/aws/5.13.1/windows_amd64/terraform-provider-aws_v5.13.1_x5.exe
 
-
-#temp exclustions for deployment
-/functions
-/infra
