@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+
+.dataMap{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.data{
+  max-width: 20%;
+  border: 1px solid black;
+  padding: 1em;
+  text-align: center;
+}
