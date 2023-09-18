@@ -19,6 +19,7 @@ function App() {
     "Special Editions & Exclusives",
   ]
 
+  //filters to sort out by grade of model kit
   const tagFilters = {
     "HG" : ["HGUC","EG","HGTB","HGGTO" ,"HGGB" ,"HGBF","HGBC","HGPG" ,"HGBD" ,"HGFRS" ,"HGBD:R","HGIBO" ,"HGGBB" ,"HGGU" ,"HGFA" ,"HGSEED","HG00" ,"HGAGE" ,"HGRG" ,"HGIBA" ,"HGTWFM","NGIBO" ],
     "MG" : ["MG","RE/100"],
@@ -27,9 +28,10 @@ function App() {
     "Mega Size": ["MSM"]
 
   };
-
+  //filters out keywords from notes
   const notesKeyWords = [
     "P-Bandai",
+    "tokyo",
 
 ]
 
@@ -54,23 +56,34 @@ function App() {
 
   },[filteredData]);
 
-  useEffect(() => {
-    setListCount(data.length);
-  
-    const filtered = data
-      .filter(item => {
-        const hasSearchTerm = item.model_name.toLowerCase().includes(searchTerm.toLowerCase()) 
-          || item.notes.toLowerCase().includes(searchTerm.toLowerCase());
-        const hasSelectedTag = selectedTag === 'All' || tagFilters[selectedTag].includes(item.tag);
-        //will check the tab and the notes if it contains specific keywords to filter out the model
-        const hasSelectedFilter = selectedFilter === 'All' || 
+
+useEffect(() => {
+  setListCount(data.length);
+
+  // Split the searchTerm into an array of keywords
+  const keywords = searchTerm.toLowerCase().split(' ');
+
+  const filtered = data
+    .filter(item => {
+      // Check if all keywords are present in the item's model_name or notes
+      const hasAllKeywords = keywords.every(keyword => 
+        item.model_name.toLowerCase().includes(keyword) || 
+        item.notes.toLowerCase().includes(keyword) ||
+        item.release_date.toLowerCase().includes(keyword)
+
+      );
+      
+      const hasSelectedTag = selectedTag === 'All' || tagFilters[selectedTag].includes(item.tag);
+      // Will check the tab and the notes if it contains specific keywords to filter out the model
+      const hasSelectedFilter = selectedFilter === 'All' || 
         (!tabFilters.includes(item.tab.trim()) && !notesKeyWords.some(keyword => item.notes.toLowerCase().includes(keyword.toLowerCase())));
-        return hasSearchTerm && hasSelectedTag && hasSelectedFilter;
-      })
-      .sort((a, b) => new Date(a.release_date) - new Date(b.release_date)); // Sort by release date
-  
-    setFilteredData(filtered);
-  }, [data, searchTerm, selectedTag, selectedFilter]);
+      return hasAllKeywords && hasSelectedTag && hasSelectedFilter;
+    })
+    .sort((a, b) => new Date(a.release_date) - new Date(b.release_date)); // Sort by release date
+
+  setFilteredData(filtered);
+}, [data, searchTerm, selectedTag, selectedFilter]);
+
 
   const handleSearch = event => {
     setSearchTerm(event.target.value);
@@ -95,7 +108,7 @@ function App() {
 
       <div>
         <input type="text" placeholder="Search by model name" value={searchTerm} onChange={handleSearch} />
-        <select value={selectedTag} onChange={handleTagSelect}>
+        <select value={selectedTag} onChange={handleTagSelect} class ="custom-select">
           <option value="All">All Tags</option>
           <option value="HG">HG</option>
           <option value="MG">MG</option>
@@ -135,6 +148,14 @@ function App() {
       {filteredData.length >= 200 &&
         <div>Search for a specific model kit</div>
       }
+
+      {data.length ==0 &&
+        <div >
+          <img className='loading' src='https://www.freeiconspng.com/uploads/spinner-icon-0.gif'></img>
+        </div>
+      }
+
+
     </div>
   );
 }
